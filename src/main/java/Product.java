@@ -9,12 +9,10 @@ public class Product {
     private Date date;
 
     Product(String name, float prise, String currency, Date date) {
-
         this.name = name;
         this.prise = prise;
         this.currency = currency;
         this.date = date;
-
     }
 
     public String getName() {
@@ -53,6 +51,6 @@ public class Product {
     public String toString() {
         String dateFormat = new SimpleDateFormat("yyyy-MM-dd").format(date);
 
-        return "Name : " + name + "\n" + "Prise : " + prise + "\n" + "Currency : " + currency + "\n" + "Date :" + dateFormat + "\n";
+        return "Name : " + name + "\n" + "Prise : " + prise + " " + currency + "\n" + "Date :" + dateFormat + "\n";
     }
 }

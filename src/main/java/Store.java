@@ -1,7 +1,6 @@
 
 import java.sql.Date;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
@@ -21,10 +20,13 @@ public class Store {
             if (command.equals("purchase")) {
                 System.out.println("Write name");
                 String name = Store.name();
+
                 System.out.println("Write price");
                 float price = Store.price();
+
                 System.out.println("Choose currency   USD, EUR, PLN;");
                 String currency = Store.currency();
+
                 Date dateDB = Store.date();
                 storage.addNewProduct(new Product(name, price, currency, dateDB));
 
@@ -36,6 +38,8 @@ public class Store {
             } else if (command.equals("clear")) {
                 Date date = Store.date();
                 storage.clear(date);
+            } else if (command.equals("report")) {
+
             } else if (command.equals("stop")) {
                 return;
             } else {
@@ -89,12 +93,17 @@ public class Store {
         java.util.Date dateStr = null;
         try {
             dateStr = sFormat.parse(date);
-        } catch (ParseException e) {
+        } catch (Exception e) {
             System.out.println("Date is not correct");
             Store.date();
         }
-        Date date1 = new Date(dateStr.getTime());
-        return date1;
+        return new Date(dateStr.getTime());
+    }
+
+    public static void report() {
+        Store.date();
+        Store.currency();
+
     }
 
 }

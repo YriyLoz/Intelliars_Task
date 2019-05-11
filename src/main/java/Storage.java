@@ -1,8 +1,5 @@
 
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 
 public class Storage {
@@ -50,9 +47,9 @@ public class Storage {
     public void clear(Date date) throws SQLException {
         connection = new ConnectionSql();
         statement = connection.getConnection().createStatement();
-
-        String clear = "DELETE FROM purchases WHERE Date = " + date;
+        String clear = "delete from purchases WHERE Date = " + date;
         statement.executeUpdate(clear);
+        connection.closeConnection();
     }
 
 
