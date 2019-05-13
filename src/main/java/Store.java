@@ -2,6 +2,7 @@
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.time.Year;
 import java.util.Scanner;
 
 
@@ -36,10 +37,9 @@ public class Store {
                 storage.showProduct();
 
             } else if (command.equals("clear")) {
-                Date date = Store.date();
-                storage.clear(date);
-            } else if (command.equals("report")) {
 
+            } else if (command.equals("report")) {
+                Store.report();
             } else if (command.equals("stop")) {
                 return;
             } else {
@@ -101,10 +101,18 @@ public class Store {
     }
 
     public static void report() {
-        Store.date();
-        Store.currency();
-
+        System.out.println("Choose currency   USD, EUR, PLN;");
+        String currency = Store.currency();
+        System.out.println("Write year");
+        Scanner scanner_year = new Scanner(System.in);
+        Year year = Year.parse(scanner_year.nextLine());
+        try {
+            new Storage().report(currency, year);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
+
 
 }
 
