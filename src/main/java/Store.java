@@ -23,7 +23,7 @@ public class Store {
                 String name = Store.name();
 
                 System.out.println("Write price");
-                float price = Store.price();
+                double price = Store.price();
 
                 System.out.println("Choose currency   USD, EUR, PLN;");
                 String currency = Store.currency();
@@ -71,11 +71,11 @@ public class Store {
         return name;
     }
 
-    public static float price() {
+    public static double price() {
         Scanner scanner_prise = new Scanner(System.in);
-        float price = 0;
+       double price = 0;
         try {
-            price = scanner_prise.nextFloat();
+            price = scanner_prise.nextDouble();
         } catch (Exception e) {
             System.out.println("Prise is not correct");
             System.out.println("Tree try again");

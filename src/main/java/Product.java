@@ -4,11 +4,11 @@ import java.util.Date;
 
 public class Product {
     private String name;
-    private float prise;
+    private double prise;
     private String currency;
     private Date date;
 
-    Product(String name, float prise, String currency, Date date) {
+    Product(String name, double prise, String currency, Date date) {
         this.name = name;
         this.prise = prise;
         this.currency = currency;
@@ -23,11 +23,11 @@ public class Product {
         this.name = name;
     }
 
-    public float getPrise() {
+    public double getPrise() {
         return prise;
     }
 
-    public void setPrise(float prise) {
+    public void setPrise(double prise) {
         this.prise = prise;
     }
 

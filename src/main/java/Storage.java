@@ -1,13 +1,6 @@
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
+import com.google.gson.Gson;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Unmarshaller;
-import java.io.IOException;
-import java.io.StringReader;
 import java.sql.*;
 import java.time.Year;
 import java.util.HashMap;
@@ -68,20 +61,45 @@ public class Storage {
         connection = new ConnectionSql();
         statement = connection.getConnection().createStatement();
         resultSet = statement.executeQuery("SELECT sum(price), currency from purchases where year(date) =" + year + " GROUP BY currency;");
-        float sum = 0;
+        double sum = 0;
         String currency = null;
-        Map<String, Float> map = new HashMap<>();
+        Map<String, Double> mylist = new HashMap<>();
         while (resultSet.next()) {
 
             sum = resultSet.getFloat(1);
             currency = resultSet.getString(2);
-            System.out.println(2019 + " " + currency + " " + sum);
-            map.put(currency, sum);
-
+            System.out.println(year + " " + currency + " " + sum);
+            mylist.put(currency, sum);
         }
+        Map<String, Double> fixerlist = Storage.fixer();
+        double result = 0;
+        for (Map.Entry<String, Double> entry : mylist.entrySet()) {
+            if (currency_conversion.equals(entry.getKey())) {
+                result += entry.getValue();
+                continue;
+            }
+            System.out.println(entry.getValue());
 
+            if (entry.getValue().equals(fixerlist.get(entry.getKey()))) {
+                result += fixerlist.get(currency_conversion);
+            }
+            result += entry.getValue() / fixerlist.get(entry.getKey()) * fixerlist.get(currency_conversion);
+        }
+        System.out.println(result);
     }
 
+    public static Map<String, Double> fixer() {
+        Map<String, Double> rates = null;
+        try {
+            String jsonAsString = HttpClient.get("http://data.fixer.io/api/latest?access_key=2b21f8b7b36fbdb133ebd9fd41bed7f3");
+            RatesResponse response = new Gson().fromJson(jsonAsString, RatesResponse.class);
+            rates = response.getRates();
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return rates;
+    }
 
 }
 
