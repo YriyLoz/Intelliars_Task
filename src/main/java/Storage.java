@@ -48,7 +48,7 @@ public class Storage {
 
     }
 
-    public void clear(Date date) throws SQLException {
+    public  void clear(Date date) throws SQLException {
         connection = new ConnectionSql();
         statement = connection.getConnection().createStatement();
         String clear = "delete from purchases WHERE Date = " + date;
@@ -68,7 +68,6 @@ public class Storage {
 
             sum = resultSet.getFloat(1);
             currency = resultSet.getString(2);
-            System.out.println(year + " " + currency + " " + sum);
             mylist.put(currency, sum);
         }
         Map<String, Double> fixerlist = Storage.fixer();
@@ -78,7 +77,6 @@ public class Storage {
                 result += entry.getValue();
                 continue;
             }
-            System.out.println(entry.getValue());
 
             if (entry.getValue().equals(fixerlist.get(entry.getKey()))) {
                 result += fixerlist.get(currency_conversion);

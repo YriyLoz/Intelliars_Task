@@ -37,7 +37,7 @@ public class Store {
                 storage.showProduct();
 
             } else if (command.equals("clear")) {
-
+                Store.clear();
             } else if (command.equals("report")) {
                 Store.report();
             } else if (command.equals("stop")) {
@@ -73,7 +73,7 @@ public class Store {
 
     public static double price() {
         Scanner scanner_prise = new Scanner(System.in);
-       double price = 0;
+        double price = 0;
         try {
             price = scanner_prise.nextDouble();
         } catch (Exception e) {
@@ -111,6 +111,11 @@ public class Store {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void clear() throws SQLException {
+        Date date = Store.date();
+        new Storage().clear(date);
     }
 
 
