@@ -3,7 +3,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class HttpClient {
+public class HttpClient {                      //doing call by URL and return a response as String
     public static String get(String urlToRead) throws Exception {
         StringBuilder result = new StringBuilder();
         URL url = new URL(urlToRead);

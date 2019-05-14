@@ -7,7 +7,7 @@ public class RatesResponse {
     private String base;
     private Date date;
     private Map<String, Double> rates;
-
+                                      //Class for getting data from fixer.io
     public RatesResponse() {
 
     }

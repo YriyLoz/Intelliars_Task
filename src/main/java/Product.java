@@ -2,7 +2,7 @@
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Product {
+public class Product {     //Class Product for creating an object which is added to the database
     private String name;
     private double prise;
     private String currency;

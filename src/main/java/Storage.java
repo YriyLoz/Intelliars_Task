@@ -12,7 +12,7 @@ public class Storage {
     private ResultSet resultSet;
 
 
-    public void showProduct() throws SQLException {
+    public void showProduct() throws SQLException {      // view all database elements
         connection = new ConnectionSql();
         statement = connection.getConnection().createStatement();
         resultSet = statement.executeQuery("select * from purchases");
@@ -29,7 +29,7 @@ public class Storage {
 
     }
 
-    public void addNewProduct(Product product) {
+    public void addNewProduct(Product product) { //  add products to the database
         try {
             connection = new ConnectionSql();
             statement = connection.getConnection().createStatement();
@@ -48,7 +48,7 @@ public class Storage {
 
     }
 
-    public  void clear(Date date) throws SQLException {
+    public  void clear(Date date) throws SQLException { // remove from database by date
         connection = new ConnectionSql();
         statement = connection.getConnection().createStatement();
         String clear = "delete from purchases WHERE Date = " + date;
@@ -64,12 +64,14 @@ public class Storage {
         double sum = 0;
         String currency = null;
         Map<String, Double> mylist = new HashMap<>();
-        while (resultSet.next()) {
 
+        while (resultSet.next()) {                 // get a necessary data from a database
             sum = resultSet.getFloat(1);
             currency = resultSet.getString(2);
             mylist.put(currency, sum);
         }
+
+        //----------------------------------------------------------- currency conversion logic
         Map<String, Double> fixerlist = Storage.fixer();
         double result = 0;
         for (Map.Entry<String, Double> entry : mylist.entrySet()) {
@@ -77,16 +79,17 @@ public class Storage {
                 result += entry.getValue();
                 continue;
             }
-
             if (entry.getValue().equals(fixerlist.get(entry.getKey()))) {
                 result += fixerlist.get(currency_conversion);
             }
             result += entry.getValue() / fixerlist.get(entry.getKey()) * fixerlist.get(currency_conversion);
         }
-        System.out.println(result);
+       // ------------------------------------------------------
+        System.out.println(result); // show sum of convertible currencies
     }
 
-    public static Map<String, Double> fixer() {
+
+    public static Map<String, Double> fixer() { // get data from fixer.io
         Map<String, Double> rates = null;
         try {
             String jsonAsString = HttpClient.get("http://data.fixer.io/api/latest?access_key=2b21f8b7b36fbdb133ebd9fd41bed7f3");
@@ -96,7 +99,7 @@ public class Storage {
         } catch (Exception e) {
             System.out.println(e);
         }
-        return rates;
+        return rates; // send data for processing in "report"
     }
 
 }

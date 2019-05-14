@@ -12,13 +12,13 @@ public class Store {
     public static void main(String[] args) throws SQLException {
         Storage storage = new Storage();
         System.out.println("Write the command: ");
-
+                                                         // choose necessary command
         while (true) {
-
-            Scanner scanner_comand = new Scanner(System.in);
-            String command = scanner_comand.nextLine();
+            Scanner scanner_command = new Scanner(System.in);
+            String command = scanner_command.nextLine();
 
             if (command.equals("purchase")) {
+
                 System.out.println("Write name");
                 String name = Store.name();
 
@@ -30,12 +30,8 @@ public class Store {
 
                 Date dateDB = Store.date();
                 storage.addNewProduct(new Product(name, price, currency, dateDB));
-
-
             } else if (command.equals("all")) {
-
                 storage.showProduct();
-
             } else if (command.equals("clear")) {
                 Store.clear();
             } else if (command.equals("report")) {
@@ -49,7 +45,7 @@ public class Store {
 
     }
 
-
+                                                    //methods for input and processing commands
     public static String currency() {
         Scanner scanner_currency = new Scanner(System.in);
         String currency = scanner_currency.nextLine();
