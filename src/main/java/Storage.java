@@ -11,9 +11,13 @@ public class Storage {
     private Statement statement;
     private ResultSet resultSet;
 
+   public Storage(ConnectionSql connection) {
+        this.connection = connection;
+    }
+
+
 
     public void showProduct() throws SQLException {      // view all database elements
-        connection = new ConnectionSql();
         statement = connection.getConnection().createStatement();
         resultSet = statement.executeQuery("select * from purchases");
         while (resultSet.next()) {
@@ -31,10 +35,9 @@ public class Storage {
 
     public void addNewProduct(Product product) { //  add products to the database
         try {
-            connection = new ConnectionSql();
             statement = connection.getConnection().createStatement();
 
-            String query = "insert into purchases(name,prise,currency,date) values('" + product.getName() + "','" + product.getPrise()
+            String query = "insert into purchases(name,price,currency,date) values('" + product.getName() + "','" + product.getPrise()
                     + "','" + product.getCurrency() + "','" + product.getDate() + "')";
 
             statement.addBatch(query);
@@ -48,8 +51,7 @@ public class Storage {
 
     }
 
-    public  void clear(Date date) throws SQLException { // remove from database by date
-        connection = new ConnectionSql();
+    public void clear(Date date) throws SQLException { // remove from database by date
         statement = connection.getConnection().createStatement();
         String clear = "delete from purchases WHERE Date = " + date;
         statement.executeUpdate(clear);
@@ -58,7 +60,6 @@ public class Storage {
 
 
     public void report(String currency_conversion, Year year) throws SQLException {
-        connection = new ConnectionSql();
         statement = connection.getConnection().createStatement();
         resultSet = statement.executeQuery("SELECT sum(price), currency from purchases where year(date) =" + year + " GROUP BY currency;");
         double sum = 0;
@@ -84,7 +85,7 @@ public class Storage {
             }
             result += entry.getValue() / fixerlist.get(entry.getKey()) * fixerlist.get(currency_conversion);
         }
-       // ------------------------------------------------------
+        // ------------------------------------------------------
         System.out.println(result); // show sum of convertible currencies
     }
 

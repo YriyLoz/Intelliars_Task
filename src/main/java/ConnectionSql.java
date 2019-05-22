@@ -18,12 +18,18 @@ public class ConnectionSql {
     }
 
     public Connection getConnection() {
+        try {
+            connection = DriverManager.getConnection(URL, NAME, PASSWORD);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return connection;
     }
 
     public void closeConnection() throws SQLException {
 
-        this.connection.close();
+      connection.close();
 
 
     }

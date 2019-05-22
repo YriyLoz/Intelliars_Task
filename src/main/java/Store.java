@@ -8,14 +8,16 @@ import java.util.Scanner;
 
 public class Store {
 
+    static Scanner scanner = new Scanner(System.in);
+    static Storage storage = new Storage(new ConnectionSql());
 
     public static void main(String[] args) throws SQLException {
-        Storage storage = new Storage();
+
         System.out.println("Write the command: ");
-                                                         // choose necessary command
+
+        // choose necessary command
         while (true) {
-            Scanner scanner_command = new Scanner(System.in);
-            String command = scanner_command.nextLine();
+            String command = scanner.nextLine();
 
             if (command.equals("purchase")) {
 
@@ -45,37 +47,35 @@ public class Store {
 
     }
 
-                                                    //methods for input and processing commands
+    //methods for input and processing commands
     public static String currency() {
-        Scanner scanner_currency = new Scanner(System.in);
-        String currency = scanner_currency.nextLine();
-        if (!currency.equals("EUR") && !currency.equals("USD") && !currency.equals("PLN")) {
+        String currency = scanner.nextLine();
+        if (currency.equals("EUR") && currency.equals("USD") && currency.equals("PLN")) {
+            return currency;
+        }else {
             System.out.println("Currency is not correct");
-            Store.currency();
+            currency();
         }
         return currency;
     }
 
     public static String name() {
-        Scanner scanner_name = new Scanner(System.in);
-        String name = scanner_name.nextLine();
+        String name = scanner.nextLine();
         if (name.matches("[0-9]")) {
             System.out.println("Name is not correct");
-
-            Store.name();
+            name();
         }
         return name;
     }
 
     public static double price() {
-        Scanner scanner_prise = new Scanner(System.in);
         double price = 0;
         try {
-            price = scanner_prise.nextDouble();
+            price = scanner.nextDouble();
         } catch (Exception e) {
             System.out.println("Prise is not correct");
             System.out.println("Tree try again");
-            Store.price();
+            price();
         }
         return price;
     }
@@ -83,15 +83,14 @@ public class Store {
     public static Date date() {
         System.out.println("Write date");
         System.out.println("like that yyyy-MM-dd");
-        Scanner scanner_date = new Scanner(System.in);
-        String date = scanner_date.nextLine();
+        String date = scanner.nextLine();
         SimpleDateFormat sFormat = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date dateStr = null;
         try {
             dateStr = sFormat.parse(date);
         } catch (Exception e) {
             System.out.println("Date is not correct");
-            Store.date();
+            date();
         }
         return new Date(dateStr.getTime());
     }
@@ -100,10 +99,9 @@ public class Store {
         System.out.println("Choose currency   USD, EUR, PLN;");
         String currency = Store.currency();
         System.out.println("Write year");
-        Scanner scanner_year = new Scanner(System.in);
-        Year year = Year.parse(scanner_year.nextLine());
+        Year year = Year.parse(scanner.nextLine());
         try {
-            new Storage().report(currency, year);
+            storage.report(currency, year);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -111,7 +109,7 @@ public class Store {
 
     public static void clear() throws SQLException {
         Date date = Store.date();
-        new Storage().clear(date);
+        storage.clear(date);
     }
 
 
